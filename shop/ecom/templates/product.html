@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+{% if category %}
+{{ product.descriprtion|truncatewords:155 }}
+{% else %}
+Welcome to Ayaan's brand for joyfull shopping
+{% endif %}
+{% endblock %}
+
+{%  block title %}
+{% if category %}
+{{ product.name }} Ayaan's store
+
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="row my_prod_row_class">
+
+<div class=" row mx_auto">
+ <div>
+  <p> <a href="{% url 'ecom:allprocat' %}">Home</a><a href="{{ product.category.get_url }}">{{product.category }}</a> {{ product.name }}</p>
+ </div>
+</div>
+<br>
+<div>
+ <div>
+  <div>
+   <div class="container">
+    <br>
+    <div class="row">
+     <div class="col-md-12 col-sm-12 col-md-12 col-lg-12 text-center">
+      <div style="min-width:18rem">
+
+   <img src="{{product.img.url}}" alt="{{product.name }}">
+</div>
+ </div>
+ <div>
+  <div class="col-md-12 col-sm12 col-md-12 col-lg-12">
+   <h1 class="my_product_title">{{product.name }}</h1>
+   <h3>{{product.price }}</h3>
+   <p> Product Description</p>
+   <p> {{ product.description }}</p>
+   {% if product.stock <= 0 %}
+   <p><b> Out of stock</b></p>
+   {% else %}
+   <a class="btn btn-secondary"  href="{% url 'cart:add_cart' product.id %}" >Add to Cart</a>
+   {% endif %}
+{% endblock %}
+  </div>
+ </div>
+</div>

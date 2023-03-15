@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  block metadescription %}
+{% if category %}
+{{ category.descriprtion|truncatewords:155 }}
+{% else %}
+Welcome to Ayaan's brand for joyfull shopping
+{% endif %}
+{% endblock %}
+
+{%  block title %}
+{% if category %}
+{{ category.name }} Ayaan's store
+{% else %}
+Ayaan's store new collections
+{% endif %}
+{% endblock %}
+{% block content %}
+{% if category %}
+<div>
+<div class="row my_row_class">
+    <div class="mx-auto">
+    <a href=" {% url 'ecom:allprocat' %}">our product collection</a>
+</div>
+</div>
+    </div>
+{% endif %}
+<div class="mx_auto">
+<div>
+    {%  if category %}
+    <img  class="my_image" src="{{ category.img.url }}" alt="{{ category.name }}">
+</div>
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title">{{ category.name }}</h1>
+    <p class="text-justify"> {{ category.description }}</p>
+
+
+</div>
+{% else %}
+<img src=" {% static 'img/banner.jpg' %}" alt="Our product" width="1200" height="300">
+<br>
+<div>
+    <h1> Our Product Colldction</h1>
+    <p> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
+</div>
+{% endif %}
+<div class="container">
+<div class=" row mx_auto">
+    {% for product in products.object_list %}
+    <div class="my_bottom_margin col-9 col-sm-12 col-md-4 xol-lg-4">
+        <div class="card text-center" style="min-width:18rem;">
+            <a href="{{product.get_url }}"><img class="card-img-top my_image" src="{{ product.img.url }}" alt="{{ product.name }}"> </a>
+            <div class="card-body">
+                <h4>{{product.name }}</h4>
+                <p>{{product.price }}</p>
+                <p>{{ product.desc }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+        <div class="mx-auto">
+            {% if products.paginator.num_page > 1 %}
+            <hr>
+            <div class="text-center">
+                {% for pg in products.paginator.page_range %}
+                <a href="?page={{pg}}" class="btn btn-danger {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+                 {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>
+        <br>
+</div>
+
+
+{% endblock %}
+
